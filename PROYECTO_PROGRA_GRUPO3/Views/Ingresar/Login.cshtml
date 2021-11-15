@@ -1,0 +1,25 @@
+﻿@model PROYECTO_PROGRA_GRUPO3.Models.USUARIOS
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Ingresar su usuario</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(d => d.USUARIO)
+    <br />
+    @Html.TextBoxFor(d => d.USUARIO)
+    <br />
+    @Html.LabelFor(d => d.CLAVE)
+    <br />
+    @Html.PasswordFor(d => d.CLAVE)
+    <br />
+    <br />
+    <button>Ingresar</button>
+    <br />
+}
+<br />
+@TempData["Mensaje"]
+

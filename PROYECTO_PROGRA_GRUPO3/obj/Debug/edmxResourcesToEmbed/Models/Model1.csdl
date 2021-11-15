@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PROYECTO_PROGRAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CATEGORIA">
+    <Key>
+      <PropertyRef Name="ID_CATEGORIA" />
+    </Key>
+    <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
+    <Property Name="NOMBRE_CATEGORIA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__PRODUCTOS__ID_CA__2E1BDC42" FromRole="CATEGORIA" ToRole="PRODUCTOS" />
+  </EntityType>
+  <EntityType Name="DETALLE_FACTURA">
+    <Key>
+      <PropertyRef Name="ID_FACTURA" />
+      <PropertyRef Name="ID_PRODUCTO" />
+    </Key>
+    <Property Name="ID_FACTURA" Type="Int32" Nullable="false" />
+    <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+    <Property Name="PRECIO_UNIDAD" Type="Int32" Nullable="false" />
+    <Property Name="DESCRIPCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CANTIDAD" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FACTURACION" Relationship="Self.FK__DETALLE_F__ID_FA__398D8EEE" FromRole="DETALLE_FACTURA" ToRole="FACTURACION" />
+    <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__DETALLE_F__ID_PR__3A81B327" FromRole="DETALLE_FACTURA" ToRole="PRODUCTOS" />
+  </EntityType>
+  <EntityType Name="FACTURACION">
+    <Key>
+      <PropertyRef Name="ID_FACTURA" />
+    </Key>
+    <Property Name="ID_FACTURA" Type="Int32" Nullable="false" />
+    <Property Name="PRECIO_TOTAL" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DETALLE_FACTURA" Relationship="Self.FK__DETALLE_F__ID_FA__398D8EEE" FromRole="FACTURACION" ToRole="DETALLE_FACTURA" />
+  </EntityType>
+  <EntityType Name="PRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID_PRODUCTO" />
+    </Key>
+    <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+    <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
+    <Property Name="NOMBRE_PRODUCTO" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PRECIO_UNIDAD" Type="Int32" Nullable="false" />
+    <Property Name="DESCRIPCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CATEGORIA" Relationship="Self.FK__PRODUCTOS__ID_CA__2E1BDC42" FromRole="PRODUCTOS" ToRole="CATEGORIA" />
+    <NavigationProperty Name="DETALLE_FACTURA" Relationship="Self.FK__DETALLE_F__ID_PR__3A81B327" FromRole="PRODUCTOS" ToRole="DETALLE_FACTURA" />
+    <NavigationProperty Name="PROVEEDORES" Relationship="Self.FK__PROVEEDOR__ID_PR__30F848ED" FromRole="PRODUCTOS" ToRole="PROVEEDORES" />
+    <NavigationProperty Name="PROVEEDORES1" Relationship="Self.PRODUCTOS_PROVEEDORES" FromRole="PRODUCTOS" ToRole="PROVEEDORES" />
+  </EntityType>
+  <EntityType Name="PROVEEDORES">
+    <Key>
+      <PropertyRef Name="ID_PROVEEDOR" />
+    </Key>
+    <Property Name="ID_PROVEEDOR" Type="Int32" Nullable="false" />
+    <Property Name="NOMBRE_PROVEEDOR" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="APELLIDO1_PROVEEDOR" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TELEFONO_PROVEEDOR" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CORREO_PROVEEDOR" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PRODUCTOS" Relationship="Self.FK__PROVEEDOR__ID_PR__30F848ED" FromRole="PROVEEDORES" ToRole="PRODUCTOS" />
+    <NavigationProperty Name="PRODUCTOS1" Relationship="Self.PRODUCTOS_PROVEEDORES" FromRole="PROVEEDORES" ToRole="PRODUCTOS" />
+  </EntityType>
+  <EntityType Name="USUARIOS">
+    <Key>
+      <PropertyRef Name="ID_USUARIO" />
+    </Key>
+    <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+    <Property Name="NOMBRE_USUARIO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="APELLIDO1_USUARIO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="USUARIO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CORREO_USUARIO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CLAVE" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__PRODUCTOS__ID_CA__2E1BDC42">
+    <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA">
+        <PropertyRef Name="ID_CATEGORIA" />
+      </Principal>
+      <Dependent Role="PRODUCTOS">
+        <PropertyRef Name="ID_CATEGORIA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DETALLE_F__ID_FA__398D8EEE">
+    <End Role="FACTURACION" Type="Self.FACTURACION" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA" Type="Self.DETALLE_FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURACION">
+        <PropertyRef Name="ID_FACTURA" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA">
+        <PropertyRef Name="ID_FACTURA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DETALLE_F__ID_PR__3A81B327">
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA" Type="Self.DETALLE_FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTOS">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PROVEEDOR__ID_PR__30F848ED">
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
+    <End Role="PROVEEDORES" Type="Self.PROVEEDORES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTOS">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Principal>
+      <Dependent Role="PROVEEDORES">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PRODUCTOS_PROVEEDORES">
+    <End Role="PROVEEDORES" Type="Self.PROVEEDORES" Multiplicity="*" />
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="PROYECTO_PROGRAEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" />
+    <EntitySet Name="DETALLE_FACTURA" EntityType="Self.DETALLE_FACTURA" />
+    <EntitySet Name="FACTURACION" EntityType="Self.FACTURACION" />
+    <EntitySet Name="PRODUCTOS" EntityType="Self.PRODUCTOS" />
+    <EntitySet Name="PROVEEDORES" EntityType="Self.PROVEEDORES" />
+    <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" />
+    <AssociationSet Name="FK__PRODUCTOS__ID_CA__2E1BDC42" Association="Self.FK__PRODUCTOS__ID_CA__2E1BDC42">
+      <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DETALLE_F__ID_FA__398D8EEE" Association="Self.FK__DETALLE_F__ID_FA__398D8EEE">
+      <End Role="FACTURACION" EntitySet="FACTURACION" />
+      <End Role="DETALLE_FACTURA" EntitySet="DETALLE_FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DETALLE_F__ID_PR__3A81B327" Association="Self.FK__DETALLE_F__ID_PR__3A81B327">
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+      <End Role="DETALLE_FACTURA" EntitySet="DETALLE_FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PROVEEDOR__ID_PR__30F848ED" Association="Self.FK__PROVEEDOR__ID_PR__30F848ED">
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+      <End Role="PROVEEDORES" EntitySet="PROVEEDORES" />
+    </AssociationSet>
+    <AssociationSet Name="PRODUCTOS_PROVEEDORES" Association="Self.PRODUCTOS_PROVEEDORES">
+      <End Role="PROVEEDORES" EntitySet="PROVEEDORES" />
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

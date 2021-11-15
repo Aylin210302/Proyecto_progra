@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PROYECTO_PROGRAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CATEGORIA">
+    <Key>
+      <PropertyRef Name="ID_CATEGORIA" />
+    </Key>
+    <Property Name="ID_CATEGORIA" Type="int" Nullable="false" />
+    <Property Name="NOMBRE_CATEGORIA" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DETALLE_FACTURA">
+    <Key>
+      <PropertyRef Name="ID_FACTURA" />
+      <PropertyRef Name="ID_PRODUCTO" />
+    </Key>
+    <Property Name="ID_FACTURA" Type="int" Nullable="false" />
+    <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+    <Property Name="PRECIO_UNIDAD" Type="int" Nullable="false" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CANTIDAD" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FACTURACION">
+    <Key>
+      <PropertyRef Name="ID_FACTURA" />
+    </Key>
+    <Property Name="ID_FACTURA" Type="int" Nullable="false" />
+    <Property Name="PRECIO_TOTAL" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID_PRODUCTO" />
+    </Key>
+    <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+    <Property Name="ID_CATEGORIA" Type="int" Nullable="false" />
+    <Property Name="NOMBRE_PRODUCTO" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="PRECIO_UNIDAD" Type="int" Nullable="false" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PRODUCTOS_PROVEEDORES">
+    <Key>
+      <PropertyRef Name="ID_PRODUCTO" />
+      <PropertyRef Name="ID_PROVEEDOR" />
+    </Key>
+    <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+    <Property Name="ID_PROVEEDOR" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PROVEEDORES">
+    <Key>
+      <PropertyRef Name="ID_PROVEEDOR" />
+    </Key>
+    <Property Name="ID_PROVEEDOR" Type="int" Nullable="false" />
+    <Property Name="NOMBRE_PROVEEDOR" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="APELLIDO1_PROVEEDOR" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="TELEFONO_PROVEEDOR" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="CORREO_PROVEEDOR" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="USUARIOS">
+    <Key>
+      <PropertyRef Name="ID_USUARIO" />
+    </Key>
+    <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+    <Property Name="NOMBRE_USUARIO" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="APELLIDO1_USUARIO" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="USUARIO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="CORREO_USUARIO" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="CLAVE" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__DETALLE_F__ID_FA__398D8EEE">
+    <End Role="FACTURACION" Type="Self.FACTURACION" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA" Type="Self.DETALLE_FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURACION">
+        <PropertyRef Name="ID_FACTURA" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA">
+        <PropertyRef Name="ID_FACTURA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DETALLE_F__ID_PR__3A81B327">
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA" Type="Self.DETALLE_FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTOS">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCTOS__ID_CA__2E1BDC42">
+    <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA">
+        <PropertyRef Name="ID_CATEGORIA" />
+      </Principal>
+      <Dependent Role="PRODUCTOS">
+        <PropertyRef Name="ID_CATEGORIA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCTOS__ID_PR__33D4B598">
+    <End Role="PROVEEDORES" Type="Self.PROVEEDORES" Multiplicity="1" />
+    <End Role="PRODUCTOS_PROVEEDORES" Type="Self.PRODUCTOS_PROVEEDORES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PROVEEDORES">
+        <PropertyRef Name="ID_PROVEEDOR" />
+      </Principal>
+      <Dependent Role="PRODUCTOS_PROVEEDORES">
+        <PropertyRef Name="ID_PROVEEDOR" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PRODUCTOS__ID_PR__34C8D9D1">
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
+    <End Role="PRODUCTOS_PROVEEDORES" Type="Self.PRODUCTOS_PROVEEDORES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTOS">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Principal>
+      <Dependent Role="PRODUCTOS_PROVEEDORES">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PROVEEDOR__ID_PR__30F848ED">
+    <End Role="PRODUCTOS" Type="Self.PRODUCTOS" Multiplicity="1" />
+    <End Role="PROVEEDORES" Type="Self.PROVEEDORES" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTOS">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Principal>
+      <Dependent Role="PROVEEDORES">
+        <PropertyRef Name="ID_PRODUCTO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PROYECTO_PROGRAModelStoreContainer">
+    <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DETALLE_FACTURA" EntityType="Self.DETALLE_FACTURA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FACTURACION" EntityType="Self.FACTURACION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCTOS" EntityType="Self.PRODUCTOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCTOS_PROVEEDORES" EntityType="Self.PRODUCTOS_PROVEEDORES" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PROVEEDORES" EntityType="Self.PROVEEDORES" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__DETALLE_F__ID_FA__398D8EEE" Association="Self.FK__DETALLE_F__ID_FA__398D8EEE">
+      <End Role="FACTURACION" EntitySet="FACTURACION" />
+      <End Role="DETALLE_FACTURA" EntitySet="DETALLE_FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DETALLE_F__ID_PR__3A81B327" Association="Self.FK__DETALLE_F__ID_PR__3A81B327">
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+      <End Role="DETALLE_FACTURA" EntitySet="DETALLE_FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCTOS__ID_CA__2E1BDC42" Association="Self.FK__PRODUCTOS__ID_CA__2E1BDC42">
+      <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCTOS__ID_PR__33D4B598" Association="Self.FK__PRODUCTOS__ID_PR__33D4B598">
+      <End Role="PROVEEDORES" EntitySet="PROVEEDORES" />
+      <End Role="PRODUCTOS_PROVEEDORES" EntitySet="PRODUCTOS_PROVEEDORES" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PRODUCTOS__ID_PR__34C8D9D1" Association="Self.FK__PRODUCTOS__ID_PR__34C8D9D1">
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+      <End Role="PRODUCTOS_PROVEEDORES" EntitySet="PRODUCTOS_PROVEEDORES" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PROVEEDOR__ID_PR__30F848ED" Association="Self.FK__PROVEEDOR__ID_PR__30F848ED">
+      <End Role="PRODUCTOS" EntitySet="PRODUCTOS" />
+      <End Role="PROVEEDORES" EntitySet="PROVEEDORES" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
